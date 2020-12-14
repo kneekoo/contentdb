@@ -308,11 +308,11 @@ class Package(db.Model):
 	releases = db.relationship("PackageRelease", back_populates="package",
 			lazy="dynamic", order_by=db.desc("package_release_releaseDate"), cascade="all, delete, delete-orphan")
 
-	screenshots = db.relationship("PackageScreenshot", back_populates="package", foreign_keys="PackageScreenshot.package_id",
-			lazy="dynamic", order_by=db.asc("package_screenshot_order"), cascade="all, delete, delete-orphan")
+	media = db.relationship("PackageMedia", back_populates="package", foreign_keys="PackageMedia.package_id",
+			lazy="dynamic", order_by=db.asc("package_media_order"), cascade="all, delete, delete-orphan")
 
-	cover_image_id = db.Column(db.Integer, db.ForeignKey("package_screenshot.id"), nullable=True, default=None)
-	cover_image = db.relationship("PackageScreenshot", uselist=False, foreign_keys=[cover_image_id])
+	cover_image_id = db.Column(db.Integer, db.ForeignKey("package_media.id"), nullable=True, default=None)
+	cover_image = db.relationship("PackageMedia", uselist=False, foreign_keys=[cover_image_id])
 
 	maintainers = db.relationship("User", secondary=maintainers)
 
@@ -398,7 +398,7 @@ class Package(db.Model):
 		}
 
 	def getAsDictionaryShort(self, base_url, version=None, release=None):
-		tnurl = self.getThumbnailURL(1)
+		tnurl = self.get_thumbnail_url(1)
 		release = release if release else self.getDownloadRelease(version=version)
 		return {
 			"name": self.name,
@@ -411,7 +411,7 @@ class Package(db.Model):
 		}
 
 	def getAsDictionary(self, base_url, version=None):
-		tnurl = self.getThumbnailURL(1)
+		tnurl = self.get_thumbnail_url(1)
 		release = self.getDownloadRelease(version=version)
 		return {
 			"author": self.author.username,
@@ -432,7 +432,7 @@ class Package(db.Model):
 
 			"provides": [x.name for x in self.provides],
 			"thumbnail": (base_url + tnurl) if tnurl is not None else None,
-			"screenshots": [base_url + ss.url for ss in self.screenshots],
+			"media": [base_url + ss.url for ss in self.media],
 
 			"url": base_url + self.getDownloadURL(),
 			"release": release and release.id,
@@ -441,20 +441,20 @@ class Package(db.Model):
 			"downloads": self.downloads
 		}
 
-	def getThumbnailURL(self, level=2):
-		screenshot = self.screenshots.filter_by(approved=True).order_by(db.asc(PackageScreenshot.id)).first()
-		return screenshot.getThumbnailURL(level) if screenshot is not None else None
+	def get_thumbnail_url(self, level=2):
+		media = self.media.filter_by(approved=True).order_by(db.asc(PackageMedia.id)).first()
+		return media.get_thumbnail_url(level) if media is not None else None
 
-	def getMainScreenshotURL(self, absolute=False):
-		screenshot = self.screenshots.filter_by(approved=True).order_by(db.asc(PackageScreenshot.id)).first()
-		if screenshot is None:
+	def get_cover_image_url(self, absolute=False):
+		media = self.cover_image or self.media.filter_by(approved=True).order_by(db.asc(PackageMedia.id)).first()
+		if media is None:
 			return None
 
 		if absolute:
 			from app.utils import abs_url
-			return abs_url(screenshot.url)
+			return abs_url(media.url)
 		else:
-			return screenshot.url
+			return media.url
 
 	def getDetailsURL(self, absolute=False):
 		if absolute:
@@ -491,11 +491,11 @@ class Package(db.Model):
 		return url_for("packages.remove",
 				author=self.author.username, name=self.name)
 
-	def getNewScreenshotURL(self):
+	def get_new_media_url(self):
 		return url_for("packages.create_screenshot",
 				author=self.author.username, name=self.name)
 
-	def getEditScreenshotsURL(self):
+	def get_media_editor_url(self):
 		return url_for("packages.screenshots",
 				author=self.author.username, name=self.name)
 
@@ -874,11 +874,11 @@ class PackageRelease(db.Model):
 			raise Exception("Permission {} is not related to releases".format(perm.name))
 
 
-class PackageScreenshot(db.Model):
+class PackageMedia(db.Model):
 	id         = db.Column(db.Integer, primary_key=True)
 
 	package_id = db.Column(db.Integer, db.ForeignKey("package.id"), nullable=False)
-	package    = db.relationship("Package", back_populates="screenshots", foreign_keys=[package_id])
+	package    = db.relationship("Package", back_populates="media", foreign_keys=[package_id])
 
 	order      = db.Column(db.Integer, nullable=False, default=0)
 	title      = db.Column(db.String(100), nullable=False)
@@ -886,16 +886,16 @@ class PackageScreenshot(db.Model):
 	approved   = db.Column(db.Boolean, nullable=False, default=False)
 
 	def getEditURL(self):
-		return url_for("packages.edit_screenshot",
+		return url_for("packages.edit_media",
 				author=self.package.author.username,
 				name=self.package.name,
 				id=self.id)
 
 	def getDeleteURL(self):
-		return url_for("packages.delete_screenshot",
+		return url_for("packages.delete_media",
 				author=self.package.author.username,
 				name=self.package.name,
 				id=self.id)
 
-	def getThumbnailURL(self, level=2):
+	def get_thumbnail_url(self, level=2):
 		return self.url.replace("/uploads/", "/thumbnails/{:d}/".format(level))

@@ -8,7 +8,7 @@
 	<h1 class="mb-5"><a href="{{ package.getDetailsURL() }}">{{ package.title }}</a></h1>
 
 	{% if package.checkPerm(current_user, "ADD_SCREENSHOTS") %}
-		<a href="{{ package.getNewScreenshotURL() }}" class="btn btn-primary float-right">
+		<a href="{{ package.get_new_media_url() }}" class="btn btn-primary float-right">
 			{{ _("Add Image") }}
 		</a>
 	{% endif %}
@@ -28,7 +28,7 @@
 						</div>
 						<div class="col-auto">
 							<img class="img-fluid" style="max-height: 64px;"
-									src="{{ ss.getThumbnailURL() }}" alt="{{ ss.title }}" />
+									src="{{ ss.get_thumbnail_url() }}" alt="{{ ss.title }}" />
 						</div>
 						<span class="col">
 							{{ ss.title }}

@@ -11,8 +11,8 @@
 	<meta name="og:description" content="{{ package.short_desc }}"/>
 	<meta name="description" content="{{ package.short_desc }}"/>
 	<meta name="og:url" content="{{ package.getDetailsURL(absolute=True) }}"/>
-	{% if package.getMainScreenshotURL() %}
-	<meta name="og:image" content="{{ package.getMainScreenshotURL(absolute=True) }}"/>
+	{% if package.get_cover_image_url() %}
+	<meta name="og:image" content="{{ package.get_cover_image_url(absolute=True) }}"/>
 	{% endif %}
 {% endblock %}
 
@@ -27,7 +27,7 @@
 	{% set release = package.getDownloadRelease() %}
 
 <main>
-	{% set cover_image = package.cover_image.url or package.getMainScreenshotURL() %}
+	{% set cover_image = package.cover_image.url or package.get_cover_image_url() %}
 	<header class="jumbotron pb-3"
 			style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('{{ cover_image }}');
 				background-size: cover;
@@ -379,7 +379,7 @@
 		</aside>
 
 		{% if package.checkPerm(current_user, "ADD_SCREENSHOTS") %}
-			<a href="{{ package.getEditScreenshotsURL() }}" class="btn btn-primary float-right">
+			<a href="{{ package.get_media_editor_url() }}" class="btn btn-primary float-right">
 				<i class="fas fa-images mr-1"></i>
 				Edit
 			</a>
@@ -390,14 +390,14 @@
 				{% if ss.approved or package.checkPerm(current_user, "ADD_SCREENSHOTS") %}
 					<li>
 						<a href="{{ ss.url }}">
-							<img src="{{ ss.getThumbnailURL() }}" alt="{{ ss.title }}" />
+							<img src="{{ ss.get_thumbnail_url() }}" alt="{{ ss.title }}" />
 						</a>
 					</li>
 				{% endif %}
 			{% else %}
 				{% if package.checkPerm(current_user, "EDIT_PACKAGE") %}
 					<li>
-						<a href="{{ package.getNewScreenshotURL() }}">
+						<a href="{{ package.get_new_media_url() }}">
 							<i class="fas fa-plus screenshot-add"></i>
 						</a>
 					</li>
