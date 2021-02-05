@@ -1,14 +1,15 @@
 from flask import Blueprint, render_template
+from sqlalchemy import func
 
 bp = Blueprint("homepage", __name__)
 
 from app.models import *
 import flask_menu as menu
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.expression import func
 
-@bp.route("/")
+
 @menu.register_menu(bp, ".", "Home")
+@bp.route("/")
 def home():
 	def join(query):
 		return query.options(
@@ -41,3 +42,13 @@ def home():
 
 	return render_template("index.html", count=count, downloads=downloads, tags=tags,
 			new=new, updated=updated, pop_mod=pop_mod, pop_txp=pop_txp, pop_gam=pop_gam, high_reviewed=high_reviewed, reviews=reviews)
+
+
+@menu.register_menu(bp, ".mods", "Mods", order=11, endpoint_arguments_constructor=lambda: { 'type': 'mod' })
+@menu.register_menu(bp, ".games", "Games", order=12, endpoint_arguments_constructor=lambda: { 'type': 'game' })
+@menu.register_menu(bp, ".txp", "Texture Packs", order=13, endpoint_arguments_constructor=lambda: { 'type': 'txp' })
+@bp.route("/games/", defaults={ "type": "GAME" })
+@bp.route("/mods/", defaults={ "type": "MOD" })
+@bp.route("/texture_packs/", defaults={ "type": "TXP" })
+def type_page(type_name):
+	return type_name
