@@ -62,11 +62,6 @@
 
 			{{ _("You can <a href='/help/package_config/'>set this automatically</a> in the .conf of your package.") }}
 		</p>
-		<p>
-			{{ _("You cannot select the oldest version for min or the newest version
-			for max as this does not make sense - you can't predict the future.") }}
-		</p>
-
 		<p class="mt-5">
 			{{ render_submit_field(form.submit) }}
 		</p>
@@ -77,7 +72,7 @@
 	{% if release.checkPerm(current_user, "DELETE_RELEASE") %}
 		<form method="POST" action="{{ release.getDeleteURL() }}" class="alert alert-secondary mb-5">
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-			<input class="btn btn-sm btn-danger float-right" type="submit" value="{{ _('Delete') }}">
+			<input class="btn btn-sm btn-danger float-end" type="submit" value="{{ _('Delete') }}">
 			<b>{{ _("This is permanent.") }}</b>
 			{{ _("Any associated uploads will not be deleted immediately, but the release will no longer be listed.") }}
 			<div style="clear:both;"></div>

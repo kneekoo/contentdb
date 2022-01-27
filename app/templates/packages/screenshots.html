@@ -6,8 +6,8 @@
 
 {% block content %}
 	{% if package.checkPerm(current_user, "ADD_SCREENSHOTS") %}
-		<a href="{{ package.getURL('packages.create_screenshot') }}" class="btn btn-primary float-right">
-			<i class="fas fa-plus mr-1"></i>
+		<a href="{{ package.getURL('packages.create_screenshot') }}" class="btn btn-primary float-end">
+			<i class="fas fa-plus me-1"></i>
 			{{ _("Add Image") }}
 		</a>
 	{% endif %}
@@ -22,7 +22,7 @@
 			{% if ss.approved or package.checkPerm(current_user, "ADD_SCREENSHOTS") %}
 				<li class="list-group-item" data-id="{{ ss.id }}">
 					<div class="row">
-						<div class="col-auto text-muted pr-2">
+						<div class="col-auto text-muted pe-2">
 							<i class="fas fa-bars"></i>
 						</div>
 						<div class="col-auto">
@@ -35,32 +35,32 @@
 								{{ ss.width }} x {{ ss.height }}
 								{% if ss.is_low_res() %}
 									{% if ss.is_very_small() %}
-										<span class="badge badge-danger ml-3">
+										<span class="badge bg-danger ms-3">
 											{{ _("Way too small") }}
 										</span>
 									{% elif ss.is_too_small() %}
-										<span class="badge badge-warning ml-3">
+										<span class="badge bg-warning ms-3">
 											{{ _("Too small") }}
 										</span>
 									{% else %}
-										<span class="badge badge-secondary ml-3">
+										<span class="badge bg-secondary ms-3">
 											{{ _("Not HD") }}
 										</span>
 									{% endif %}
 								{% endif %}
 								{% if not ss.approved %}
-									<span class="ml-3">
+									<span class="ms-3">
 										{{ _("Awaiting approval") }}
 									</span>
 								{% endif %}
 							</div>
 						</div>
-						<form action="{{ ss.getDeleteURL() }}" method="POST" class="col-auto text-right" role="form">
+						<form action="{{ ss.getDeleteURL() }}" method="POST" class="col-auto text-end" role="form">
 							<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 							<a class="btn btn-sm btn-primary" href="{{ ss.getEditURL() }}">
 								<i class="fas fa-pen"></i>
 							</a>
-							<button type="submit" class="btn btn-sm btn-danger ml-2">
+							<button type="submit" class="btn btn-sm btn-danger ms-2">
 								<i class="fas fa-trash"></i>
 							</button>
 						</form>

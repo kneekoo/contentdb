@@ -33,7 +33,7 @@
 				{% set tags =  package.tags | sort(attribute="views", reverse=True) %}
 				<div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
 					<a href="{{ package.getURL("packages.view") }}">
-						<div class="embed-responsive embed-responsive-16by9">
+						<div class="embed-responsive embed-responsive-16x9">
 							<img class="embed-responsive-item" src="{{ cover_image }}"
 								alt="{{ _('%(title)s by %(author)s', title=package.title, author=package.author.display_name) }}">
 						</div>
@@ -50,18 +50,18 @@
 							</p>
 							{% if package.author %}
 								<div class="d-none d-md-block">
-									<span class="mr-2">
+									<span class="me-2">
 										{{ package.type.text }}
 									</span>
 									{% for warning in package.content_warnings %}
-										<span class="badge badge-warning" title="{{ warning.description }}">
+										<span class="badge bg-warning" title="{{ warning.description }}">
 											<i class="fas fa-exclamation-circle" style="margin-right: 0.3em;"></i>
 											{{ warning.title }}
 										</span>
 									{% endfor %}
 									{% for t in tags[:3] %}
 										{% if t.name != "featured" %}
-											<span class="badge badge-primary" title="{{ t.description or '' }}">
+											<span class="badge bg-primary" title="{{ t.description or '' }}">
 												{{ t.title }}
 											</span>
 										{% endif %}
@@ -90,42 +90,42 @@
 			<span class="sr-only">{{ _("Next") }}</span>
 		</a>
 	</div>
-	<div class="text-right mb-5 text-muted" style="opacity: 0.4;">
+	<div class="text-end mb-5 text-muted" style="opacity: 0.4;">
 		<a href="/help/featured/" class="btn">
-			<i class="fas fa-question-circle mr-1"></i>
+			<i class="fas fa-question-circle me-1"></i>
 			{{ _("Featured") }}
 		</a>
 	</div>
 
-	<a href="{{ url_for('packages.list_all', sort='approved_at', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', sort='approved_at', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Recently Added") }}</h2>
 	{{ render_pkggrid(new) }}
 
 
-	<a href="{{ url_for('packages.list_all', sort='last_release', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', sort='last_release', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Recently Updated") }}</h2>
 	{{ render_pkggrid(updated) }}
 
 
-	<a href="{{ url_for('packages.list_all', type='game', sort='score', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', type='game', sort='score', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Top Games") }}</h2>
 	{{ render_pkggrid(pop_gam) }}
 
 
-	<a href="{{ url_for('packages.list_all', type='mod', sort='score', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', type='mod', sort='score', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Top Mods") }}</h2>
 	{{ render_pkggrid(pop_mod) }}
 
 
-	<a href="{{ url_for('packages.list_all', type='txp', sort='score', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', type='txp', sort='score', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Top Texture Packs") }}</h2>
@@ -141,20 +141,20 @@
 				title="{{ tag.description or '' }}"
 				href="{{ url_for('packages.list_all', tag=tag.name) }}">
 			{{ tag.title }}
-			<span class="badge badge-pill badge-light ml-1">{{ count }}</span>
+			<span class="badge rounded-pill bg-light ms-1">{{ count }}</span>
 		</a>
 	{% endfor %}
 	<div class="clearfix mb-4"></div>
 
 
-	<a href="{{ url_for('packages.list_all', sort='reviews', order='desc') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_all', sort='reviews', order='desc') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Highest Reviewed") }}</h2>
 	{{ render_pkggrid(high_reviewed) }}
 
 
-	<a href="{{ url_for('packages.list_reviews') }}" class="btn btn-secondary float-right">
+	<a href="{{ url_for('packages.list_reviews') }}" class="btn btn-secondary float-end">
 		{{ _("See more") }}
 	</a>
 	<h2 class="my-3">{{ _("Recent Positive Reviews") }}</h2>

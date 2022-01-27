@@ -10,7 +10,7 @@
 		<form class="signin" method="POST">
 			{{ form.hidden_tag() }}
 
-			<h1 class="h3 mb-4 font-weight-normal">{{ self.title() }}</h1>
+			<h1 class="h3 mb-4 fw-normal">{{ self.title() }}</h1>
 
 			{{ render_field(form.username, tabindex=110, label_visible=False, placeholder=_("Username or email")) }}
 			{{ render_field(form.password, tabindex=120, label_visible=False, placeholder=_("Password")) }}
@@ -25,12 +25,12 @@
 			<hr class="my-5" />
 
 			<p>
-				<a class="btn btn-secondary mr-3" href="{{ url_for('github.start') }}">
-					<i class="fab fa-github mr-1"></i>
+				<a class="btn btn-secondary me-3" href="{{ url_for('github.start') }}">
+					<i class="fab fa-github me-1"></i>
 					{{ _("GitHub") }}
 				</a>
 				<a class="btn btn-secondary" href="{{ url_for('users.claim') }}">
-					<i class="fas fa-user-plus mr-1"></i>
+					<i class="fas fa-user-plus me-1"></i>
 					{{ _("Register") }}
 				</a>
 			</p>

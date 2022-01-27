@@ -145,7 +145,7 @@ class User(db.Model, UserMixin):
 	github_access_token = db.Column(db.String(50), nullable=True, server_default=None)
 
 	# User email information
-	email         = db.Column(db.String(255), nullable=True, unique=True)
+	email         = db.Column(db.String(320), nullable=True, unique=True)
 	email_confirmed_at  = db.Column(db.DateTime(), nullable=True, server_default=None)
 
 	locale = db.Column(db.String(10), nullable=True, default=None)
@@ -291,7 +291,7 @@ class User(db.Model, UserMixin):
 class UserEmailVerification(db.Model):
 	id      = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-	email   = db.Column(db.String(100), nullable=False)
+	email   = db.Column(db.String(320), nullable=False)
 	token   = db.Column(db.String(32), nullable=True)
 	user    = db.relationship("User", foreign_keys=[user_id], back_populates="email_verifications")
 	is_password_reset = db.Column(db.Boolean, nullable=False, default=False)
@@ -300,7 +300,7 @@ class UserEmailVerification(db.Model):
 
 class EmailSubscription(db.Model):
 	id          = db.Column(db.Integer, primary_key=True)
-	email       = db.Column(db.String(100), nullable=False, unique=True)
+	email       = db.Column(db.String(320), nullable=False, unique=True)
 	blacklisted = db.Column(db.Boolean, nullable=False, default=False)
 	token       = db.Column(db.String(32), nullable=True, default=None)
 

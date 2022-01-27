@@ -26,14 +26,14 @@
 				<form method="post" action="" class="card-body">
 					<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 					<div class="row px-3">
-						<select name="action" class="custom-select col">
+						<select name="action" class="form-select col">
 							{% for id, action in actions.items() %}
 								<option value="{{ id }}" {% if loop.first %}selected{% endif %}>
 									{{ action["title"] }}
 								</option>
 							{% endfor %}
 						</select>
-						<input type="submit" value="Perform" class="col-sm-auto btn btn-primary ml-2" />
+						<input type="submit" value="Perform" class="col-sm-auto btn btn-primary ms-2" />
 					</div>
 				</form>
 			</div>
@@ -45,12 +45,12 @@
 					<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 					<input type="hidden" name="action" value="restore" />
 					<div class="row px-3">
-						<select name="package" class="custom-select col">
+						<select name="package" class="form-select col">
 							{% for p in deleted_packages %}
 								<option value={{ p.id }}>{{ p.id}}) {{ p.title }} by {{ p.author.display_name }}</option>
 							{% endfor %}
 						</select>
-						<input type="submit" value="Restore" class="col-sm-auto btn btn-primary ml-2" />
+						<input type="submit" value="Restore" class="col-sm-auto btn btn-primary ms-2" />
 					</div>
 				</form>
 

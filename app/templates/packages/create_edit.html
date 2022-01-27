@@ -38,13 +38,13 @@
 
 	{% if not package %}
 		<div class="alert alert-info">
-			<a class="float-right btn btn-sm btn-default" href="{{ url_for('flatpage', path='policy_and_guidance') }}">{{ _("View") }}</a>
+			<a class="float-end btn btn-sm btn-default" href="{{ url_for('flatpage', path='policy_and_guidance') }}">{{ _("View") }}</a>
 
 			{{ _("Have you read the Package Inclusion Policy and Guidance yet?") }}
 		</div>
 	{% else %}
 		<div class="alert alert-secondary">
-			<a class="float-right btn btn-sm btn-default" href="/help/package_config/#cdbjson">{{ _("Read more") }}</a>
+			<a class="float-end btn btn-sm btn-default" href="/help/package_config/#cdbjson">{{ _("Read more") }}</a>
 
 			{{ _("You can include a .cdb.json file in your %(type)s to update these details automatically.", type=package.type.text.lower()) }}
 		</div>
@@ -81,11 +81,8 @@
 			{{ render_multiselect_field(form.content_warnings, class_="pkg_meta") }}
 			<div class="pkg_meta row">
 				{{ render_field(form.license, class_="not_txp col-sm-6") }}
-				{{ render_field(form.media_license, class_="col-sm-6") }}
-			</div>
-			<div class="pkg_meta row">
-				<div class="not_txp col-sm-6"></div>
-				<div class="not_txp col-sm-6">{{ _("If there is no media, set the Media License to the same as the License.") }}</div>
+				{{ render_field(form.media_license, class_="col-sm-6",
+						hint=_("If there is no media, set the Media License to the same as the License.")) }}
 			</div>
 			{{ render_field(form.desc, class_="pkg_meta", fieldclass="form-control markdown") }}
 		</fieldset>

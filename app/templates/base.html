@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>{% block title %}title{% endblock %} - {{ config.USER_APP_NAME }}</title>
-	<link rel="stylesheet" type="text/css" href="/static/libs/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/static/custom.css?v=34">
+	<link rel="stylesheet" type="text/css" href="/static/libs/bootstrap.min.css?v=2">
+	<link rel="stylesheet" type="text/css" href="/static/custom.css?v=35">
 	<link rel="search" type="application/opensearchdescription+xml" href="/static/opensearch.xml" title="ContentDB" />
 	<link rel="shortcut icon" href="/favicon-16.png" sizes="16x16">
 	<link rel="icon" href="/favicon-128.png" sizes="128x128">
@@ -22,7 +22,7 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarColor01">
-				<ul class="navbar-nav mr-auto">
+				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url_for('packages.list_all', type='mod') }}">{{ _("Mods") }}</a>
 					</li>
@@ -42,18 +42,14 @@
 						<a class="nav-link" href="{{ url_for('threads.list_all') }}">{{ _("Threads") }}</a>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0" method="GET" action="/packages/">
+				<form class="d-flex my-2 my-lg-0" method="GET" action="/packages/">
 					{% if type %}<input type="hidden" name="type" value="{{ type }}" />{% endif %}
-					<input class="form-control" name="q" type="text"
+					<input class="form-control me-1" name="q" type="text"
 						placeholder="{% if query_hint %}{{ _('Search %(type)s', type=query_hint | lower) }}{% else %}{{ _('Search all packages') }}{% endif %}"
 						value="{{ query or ''}}">
-					<input class="btn btn-secondary my-2 my-sm-0 mr-sm-2" type="submit" value="{{ _('Search') }}" />
-					<!-- <input class="btn btn-secondary my-2 my-sm-0"
-						data-toggle="tooltip" data-placement="bottom"
-						title="Go to the first found result for this query."
-						type="submit" name="lucky" value="First" /> -->
+					<input class="btn btn-secondary" type="submit" value="{{ _('Search') }}" />
 				</form>
-				<ul class="navbar-nav ml-auto">
+				<ul class="navbar-nav ms-auto">
 					{% if current_user.is_authenticated %}
 						{% if todo_list_count is not none %}
 							<li class="nav-item">
@@ -62,7 +58,7 @@
 											title="{{ _('Work Queue') }}">
 									{% if todo_list_count > 0 %}
 										<i class="fas fa-inbox"></i>
-										<span class="badge badge-pill badge-notify">{{ todo_list_count }}</span>
+										<span class="badge rounded-pill badge-notify">{{ todo_list_count }}</span>
 									{% else %}
 										<i class="fas fa-inbox" ></i>
 									{% endif %}
@@ -86,11 +82,11 @@
 									<i class="fas fa-bell"></i>
 									{% set num_notifs = current_user.notifications | length %}
 									{% if num_notifs > 60 %}
-										<span class="badge badge-pill badge-notify badge-emoji">
+										<span class="badge rounded-pill badge-notify badge-emoji">
 											😢
 										</span>
 									{% else %}
-										<span class="badge badge-pill badge-notify">
+										<span class="badge rounded-pill badge-notify">
 											{{ num_notifs }}
 										</span>
 									{% endif %}

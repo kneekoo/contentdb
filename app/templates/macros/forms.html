@@ -8,7 +8,7 @@
 	<div class="form-group {% if field.errors %}has-danger{% endif %} {{ kwargs.pop('class_', '') }}">
 		{% if field.type != 'HiddenField' %}
 			{% if not label and label != "" %}{% set label=field.label.text %}{% endif %}
-			{% if label %}<label for="{{ field.id }}" {% if not label_visible %}class="sr-only"{% endif %}>{{ label|safe }}</label>{% endif %}
+			{% if label %}<label for="{{ field.id }}" {% if not label_visible %}class="sr-only"{% else %}class="form-label"{% endif %}>{{ label|safe }}</label>{% endif %}
 		{% endif %}
 		{{ field(class_=fieldclass or 'form-control', **kwargs) }}
 		{% if hint %}
@@ -22,13 +22,11 @@
 	<div class="form-group {% if field.errors %}has-danger{% endif %} {{ kwargs.pop('class_', '') }}">
 		{% if field.type != 'HiddenField' and label_visible %}
 			{% if not label and label != "" %}{% set label=field.label.text %}{% endif %}
-			{% if label %}<label for="{{ field.id }}">{{ label|safe }}</label>{% endif %}
+			{% if label %}<label for="{{ field.id }}" class="form-label">{{ label|safe }}</label>{% endif %}
 		{% endif %}
 
 		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1">{{ prefix }}</span>
-			</div>
+			<span class="input-group-text" id="{{ field.name }}">{{ prefix }}</span>
 			{{ field(class_=fieldclass or 'form-control', **kwargs) }}
 		</div>
 
@@ -40,13 +38,11 @@
 	<div class="form-group {% if field.errors %}has-danger{% endif %} {{ kwargs.pop('class_', '') }}">
 		{% if field.type != 'HiddenField' and label_visible %}
 			{% if not label and label != "" %}{% set label=field.label.text %}{% endif %}
-			{% if label %}<label for="{{ field.id }}">{{ label|safe }}</label>{% endif %}
+			{% if label %}<label for="{{ field.id }}" class="form-label">{{ label|safe }}</label>{% endif %}
 		{% endif %}
 
 		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="basic-addon1">{{ prefix }}</span>
-			</div>
+			<span class="input-group-text" id="basic-addon1">{{ prefix }}</span>
 			{{ field(class_=fieldclass or 'form-control', **kwargs) }}
 			<a class="btn btn-secondary" id="{{ field.name }}-button">
 				{{ _("View") }}
@@ -101,7 +97,7 @@
 	<div class="form-group {% if field.errors %}has-danger{% endif %} {{ kwargs.pop('class_', '') }}">
 		{% if field.type != 'HiddenField' and label_visible %}
 			{% if not label %}{% set label=field.label.text %}{% endif %}
-			<label for="{{ field.id }}">{{ label|safe }}</label>
+			<label for="{{ field.id }}" class="form-label">{{ label|safe }}</label>
 		{% endif %}
 		<div class="multichoice_selector bulletselector form-control">
 			<input type="text" placeholder="{{ _('Start typing to see suggestions') }}">
@@ -115,9 +111,10 @@
 
 {% macro render_checkbox_field(field, label=None) -%}
 	{% if not label %}{% set label=field.label.text %}{% endif %}
-	<div class="checkbox {{ kwargs.pop('class_', '') }}">
-		<label>
-			{{ field(type='checkbox', **kwargs) }} {{ label }}
+	<div class="form-sheck {{ kwargs.pop('class_', '') }}">
+		{{ field(type='checkbox', class_="form-check-input", **kwargs) }}
+		<label class="form-check-label" for="{{ field.id }}">
+			{{ label }}
 		</label>
 	</div>
 {%- endmacro %}
@@ -149,7 +146,7 @@
 		<label class="btn btn-primary{% if checked %} active{% endif %}">
 			{% set icon = icons[value] %}
 			{% if icon %}
-				<i class="fas {{ icon }} mr-2"></i>
+				<i class="fas {{ icon }} me-2"></i>
 			{% endif %}
 			<input type="radio" name="{{ field.id }}" id="{{ field.id }}" value="{{ value }}" autocomplete="off" {% if checked %} checked{% endif %}>
 			{{ label }}
